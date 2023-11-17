@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+  database:
+    image: postgres:13
+    container_name: velvet-database
+    restart: always
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DATABASE_NAME}
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+volumes:
+  postgres: ~

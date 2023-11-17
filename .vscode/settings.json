@@ -1,0 +1,10 @@
+{
+  "material-icon-theme.files.associations": {
+    ".env.docker-compose": "tune",
+    ".env.docker-compose.example": "tune"
+  },
+  "files.associations": {
+    ".env": "properties",
+    ".env.*": "properties"
+  }
+}
