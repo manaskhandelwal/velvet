@@ -32,5 +32,13 @@ class Settings(BaseSettings):
             path=config.get("POSTGRES_DATABASE_NAME"),
         )
 
+    ACCESS_TOKEN_SECRET_KEY: str = config.get("ACCESS_TOKEN_SECRET_KEY")
+    ACCESS_TOKEN_ALGORITHM: str = "HS256"
+    # 60 minutes * 24 hours * 15 days
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 15
+    
+    BREVO_API_ENDPOINT: str = config.get("BREVO_API_ENDPOINT")
+    BREVO_API_KEY: str = config.get("BREVO_API_KEY")
+
 
 settings = Settings()

@@ -12,6 +12,18 @@ services:
       POSTGRES_DB: ${POSTGRES_DATABASE_NAME}
     volumes:
       - postgres:/var/lib/postgresql/data
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: velvet-pgadmin4
+    restart: always
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: manas@manas.com
+      PGADMIN_DEFAULT_PASSWORD: manas
+    volumes:
+      - pgadmin:/var/lib/pgadmin
 
 volumes:
   postgres: ~
+  pgadmin: ~

@@ -8,3 +8,4 @@ passlib[argon2]
 alembic
 psycopg2-binary
 python-dotenv
+requests

@@ -20,4 +20,4 @@ app = FastAPI(
     title=settings.PROJECT_NAME,
 )
 
-app.include_router(auth.router, prefix=api("/auth"), tags=["Authentication"])
+app.include_router(auth.router, prefix=api("/auth"), tags=["auth"])
