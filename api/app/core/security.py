@@ -40,7 +40,7 @@ def create_access_token(
     to_encode = {"exp": expire, "sub": str(subject)}
     encoded_jwt = jwt.encode(to_encode, settings.ACCESS_TOKEN_SECRET_KEY, algorithm=settings.ACCESS_TOKEN_ALGORITHM)
 
-    return encoded_jwt
+    return {"access_token": encoded_jwt, "access_type": "bearer"}
 
 
 def generate_otp(n: int = 6) -> int:

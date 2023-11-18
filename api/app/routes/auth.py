@@ -2,14 +2,14 @@ from typing import Annotated
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from utils.user import get_user_by_id
+from utils.user import authenticate_user, get_user_by_id
 from utils.emails import send_otp_email
 from utils.helpers import get_db, is_duplicate
 from utils.errors import duplicate_error, not_found_error
 
 from core.security import generate_otp, get_current_user, get_password_hash, create_access_token
 from models.user import User 
-from schemas.user import UserCreateDto, UserOtpVerifyDto
+from schemas.user import UserCreateDto, UserLoginDto, UserOtpVerifyDto
 
 
 router = APIRouter()
@@ -49,7 +49,7 @@ async def register(
     
     await send_otp_email({"name": dto.full_name, "email": dto.email}, email_otp)
 
-    return {"access_token": create_access_token(user.id), "access_type": "bearer"}
+    return create_access_token(user.id)
 
 
 @router.post("/verify-otp")
@@ -67,3 +67,9 @@ async def verify_otp(user_dep: user_dependency, db: db_dependency, dto: UserOtpV
     db.refresh(user)
     
     return {"msg": "OTP Verified!"}
+
+
+@router.post("/login")
+async def login(db: db_dependency, dto: UserLoginDto):
+    user: User = await authenticate_user(db, username=dto.username, password=dto.password)
+    return create_access_token(user.id)

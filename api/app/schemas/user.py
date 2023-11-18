@@ -7,5 +7,11 @@ class UserCreateDto(BaseModel):
     email: EmailStr = Field()
     password: str = Field(min_length=1)
 
+
 class UserOtpVerifyDto(BaseModel):
     email_otp: int = Field()
+
+
+class UserLoginDto(BaseModel):
+    username: str = Field(min_length=2)
+    password: str = Field(min_length=1)
