@@ -112,3 +112,15 @@ async def cherish_moment(
     db.refresh(moment)
 
     return success_responce()
+
+
+@router.get("/feed")
+async def get_user_moments(user_dep: user_dependency, db: db_dependency):
+    moments = (
+        db.query(Moment)
+        .filter(Moment.user_id != user_dep.get("id"))
+        .filter(Moment.private == False)
+        .all()
+    )
+
+    return moments
