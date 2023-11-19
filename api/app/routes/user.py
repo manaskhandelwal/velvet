@@ -63,3 +63,40 @@ async def follow_user(
     db.refresh(to_follow_user)
 
     return success_responce()
+
+
+@router.post("/unfollow/{to_unfollow_user_id}")
+async def unfollow_user(
+    user_dep: user_dependency, db: db_dependency, to_unfollow_user_id: str
+):
+    unfollowed = (
+        db.query(FollowRelation)
+        .filter(FollowRelation.user_id == user_dep.get("id"))
+        .filter(FollowRelation.followed_user_id == to_unfollow_user_id)
+        .first()
+    )
+
+    if not unfollowed:
+        raise conflit_error("follow", f"You are anyways not following this account.")
+
+    follow = FollowRelation(
+        user_id=user_dep.get("id"), followed_user_id=to_unfollow_user_id
+    )
+
+    user: User = await get_user_by_id(db, user_dep.get("id"))
+    to_follow_user: User = await get_user_by_id(db, to_unfollow_user_id)
+
+    user.total_following -= 1
+    to_follow_user.total_followers -= 1
+
+    db.add(follow)
+    db.add(user)
+    db.add(to_follow_user)
+
+    db.commit()
+
+    db.refresh(follow)
+    db.refresh(user)
+    db.refresh(to_follow_user)
+
+    return success_responce()
