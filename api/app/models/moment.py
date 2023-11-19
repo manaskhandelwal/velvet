@@ -1,4 +1,4 @@
-from sqlalchemy import UUID, Column, String, Boolean
+from sqlalchemy import UUID, Column, String, Boolean, Integer
 from .base_table import BaseTable
 
 
@@ -9,5 +9,7 @@ class Moment(BaseTable):
 
     message = Column(String, nullable=True)
     photo = Column(String, nullable=True)
+
+    total_cherishes = Column(Integer, default=0)
 
     private = Column(Boolean, default=False)

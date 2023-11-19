@@ -6,7 +6,3 @@ class MomentCreateDto(BaseModel):
     message: Optional[str] = Field(min_length=1)
     photo: Optional[str] = Field(min_length=2)
     private: Optional[bool] = Field()
-
-
-class MomentCherishDto(BaseModel):
-    moment_id: str = Field()
