@@ -1,12 +1,9 @@
-import uuid
-from sqlalchemy import UUID, Boolean, Column, Integer, String
-from db.session import Base
+from sqlalchemy import Boolean, Column, Integer, String
+from .base_table import BaseTable
 
 
-class User(Base):
+class User(BaseTable):
     __tablename__ = "users"
-
-    id = Column(UUID(as_uuid=True), default=uuid.uuid4, primary_key=True, index=True)
 
     full_name = Column(String, index=True)
     username = Column(String, unique=True, index=True)
