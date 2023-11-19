@@ -1,9 +1,9 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Path
 from sqlalchemy.orm import Session
 from typing import Annotated
 from utils.files import upload_file
 from models.cherish_relation import CherishRelation
-from utils.errors import conflit_error
+from utils.errors import conflit_error, not_found_error
 from models.moment import Moment
 from utils.helpers import get_db, success_responce, text_sentiment
 from schemas.moment import MomentCherishDto, MomentCreateDto
@@ -51,6 +51,31 @@ async def create_moment(
     db.refresh(moment)
 
     return moment
+
+
+@router.delete("/{moment_id}")
+async def delete_moment(
+    user_dep: user_dependency,
+    db: db_dependency,
+    moment_id: str = Path(min_length=36, max_length=36),
+):
+    moment = (
+        db.query(Moment)
+        .filter(Moment.user_id == user_dep.get("id"))
+        .filter(Moment.id == moment_id)
+        .first()
+    )
+
+    if not moment:
+        raise not_found_error(
+            "moment",
+            f"There exist no moment with the id {moment_id}",
+        )
+
+    db.delete(moment)
+    db.commit()
+
+    return success_responce()
 
 
 @router.post("/cherish")
