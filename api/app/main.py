@@ -5,7 +5,7 @@ sys.dont_write_bytecode = True
 from fastapi import FastAPI
 import cloudinary
 from dotenv import load_dotenv
-
+from fastapi.middleware.cors import CORSMiddleware
 from routes import auth, user, moment
 from core.config import settings
 
@@ -18,6 +18,18 @@ def api(path: str):
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
+)
+
+origins = [
+    "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 cloudinary.config(

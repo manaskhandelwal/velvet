@@ -1,0 +1,7 @@
+{
+  "material-icon-theme.files.associations": {
+    ".env.docker-compose": "tune",
+    ".env.docker-compose.example": "tune"
+  },
+  "editor.tabSize": 4
+}

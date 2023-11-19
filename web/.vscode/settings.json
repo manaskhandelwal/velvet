@@ -1,0 +1,12 @@
+{
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "editor.tabSize": 2,
+  "tailwindCSS.classAttributes": ["class", "className", ".*Styles"],
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["clsx\\(.*\\)", "(?:'|\"|`)([^,)]*)(?:'|\"|`)"],
+    ["cntl`([^`]*)"]
+  ]
+}

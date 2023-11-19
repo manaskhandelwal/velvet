@@ -1,18 +1,7 @@
 {
-  "material-icon-theme.files.associations": {
-    ".env.docker-compose": "tune",
-    ".env.docker-compose.example": "tune"
-  },
   "files.associations": {
     ".env": "properties",
-    ".env.*": "properties",
-    "*.css": "tailwindcss"
+    ".env.*": "properties"
   },
-  "editor.tabSize": 4,
-  "tailwindCSS.classAttributes": ["class", "className", ".*Styles"],
-  "tailwindCSS.experimental.classRegex": [
-    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
-    ["clsx\\(.*\\)", "(?:'|\"|`)([^,)]*)(?:'|\"|`)"],
-    ["cntl`([^`]*)"]
-  ]
+  "editor.tabSize": 2
 }

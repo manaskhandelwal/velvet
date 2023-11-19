@@ -1,7 +1,5 @@
+import { OnboardingPage } from "../module/auth/onboarding-page";
+
 export default function Home() {
-  return (
-    <section>
-      <h1 className={`text-6xl font-semibold`}>Velvet</h1>
-    </section>
-  );
+  return <OnboardingPage />;
 }
