@@ -4,11 +4,16 @@ from sqlalchemy.orm import Session
 
 from utils.user import authenticate_user, get_user_by_id
 from utils.emails import send_otp_email
-from utils.helpers import get_db, is_duplicate
+from utils.helpers import get_db, is_duplicate, success_responce
 from utils.errors import duplicate_error, not_found_error
 
-from core.security import generate_otp, get_current_user, get_password_hash, create_access_token
-from models.user import User 
+from core.security import (
+    generate_otp,
+    get_current_user,
+    get_password_hash,
+    create_access_token,
+)
+from models.user import User
 from schemas.user import UserCreateDto, UserLoginDto, UserOtpVerifyDto
 
 
@@ -22,17 +27,16 @@ async def register(
     db: db_dependency,
     dto: UserCreateDto,
 ):
+    if await is_duplicate(db, User, User.email, dto.email):
+        raise duplicate_error(
+            target="email", msg="Another account is using the same email."
+        )
 
-    if (
-        await is_duplicate(db,User, User.email, dto.email)
-    ):
-        raise duplicate_error(target="email", msg="Another account is using the same email.")
-    
-    if (
-        await is_duplicate(db,User, User.username, dto.username)
-    ):
-        raise duplicate_error(target="username", msg="This username isn't available. Please try another.")
-    
+    if await is_duplicate(db, User, User.username, dto.username):
+        raise duplicate_error(
+            target="username", msg="This username isn't available. Please try another."
+        )
+
     email_otp = generate_otp()
 
     user = User(
@@ -46,14 +50,16 @@ async def register(
     db.add(user)
     db.commit()
     db.refresh(user)
-    
+
     await send_otp_email({"name": dto.full_name, "email": dto.email}, email_otp)
 
     return create_access_token(user.id)
 
 
 @router.post("/verify-otp")
-async def verify_otp(user_dep: user_dependency, db: db_dependency, dto: UserOtpVerifyDto):
+async def verify_otp(
+    user_dep: user_dependency, db: db_dependency, dto: UserOtpVerifyDto
+):
     user: User = await get_user_by_id(db, user_dep.get("id"))
 
     if user.email_otp != dto.email_otp:
@@ -61,15 +67,17 @@ async def verify_otp(user_dep: user_dependency, db: db_dependency, dto: UserOtpV
 
     user.email_verified = True
     user.email_otp = None
-    
+
     db.add(user)
     db.commit()
     db.refresh(user)
-    
-    return {"msg": "OTP Verified!"}
+
+    return success_responce("OTP verification successful.")
 
 
 @router.post("/login")
 async def login(db: db_dependency, dto: UserLoginDto):
-    user: User = await authenticate_user(db, username=dto.username, password=dto.password)
+    user: User = await authenticate_user(
+        db, username=dto.username, password=dto.password
+    )
     return create_access_token(user.id)
