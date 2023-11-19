@@ -1,6 +1,8 @@
 from typing import Annotated
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
+from schemas.user import UserProfilePhotoDto
+from utils.files import upload_file
 from utils.errors import conflit_error
 from models.follow_relation import FollowRelation
 from models.user import User
@@ -98,5 +100,21 @@ async def unfollow_user(
     db.refresh(follow)
     db.refresh(user)
     db.refresh(to_follow_user)
+
+    return success_responce()
+
+
+@router.post("/profile-photo")
+async def upload_profile_photo(
+    user_dep: user_dependency, db: db_dependency, dto: UserProfilePhotoDto
+):
+    user: User = await get_user_by_id(db, user_dep.get("id"))
+    file = await upload_file(dto.file)
+
+    user.profile_photo = file.get("url")
+
+    db.add(user)
+    db.commit()
+    db.refresh(user)
 
     return success_responce()

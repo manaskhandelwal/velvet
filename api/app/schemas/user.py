@@ -15,3 +15,7 @@ class UserOtpVerifyDto(BaseModel):
 class UserLoginDto(BaseModel):
     username: str = Field(min_length=2)
     password: str = Field(min_length=1)
+
+
+class UserProfilePhotoDto(BaseModel):
+    file: str = Field()
