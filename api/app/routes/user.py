@@ -1,4 +1,5 @@
 from typing import Annotated
+from models.moment import Moment
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from schemas.user import UserProfilePhotoDto
@@ -118,3 +119,10 @@ async def upload_profile_photo(
     db.refresh(user)
 
     return success_responce()
+
+
+@router.get("/moments")
+async def get_user_moments(user_dep: user_dependency, db: db_dependency):
+    moments = db.query(Moment).filter(Moment.user_id == user_dep.get("id")).all()
+
+    return moments
