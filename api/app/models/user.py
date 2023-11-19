@@ -18,4 +18,7 @@ class User(Base):
     email_otp = Column(Integer, nullable=True)
     email_verified = Column(Boolean, default=False)
 
+    total_following = Column(Integer, default=0)
+    total_followers = Column(Integer, default=0)
+
     hashed_password = Column(String, nullable=False)
