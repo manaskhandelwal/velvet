@@ -22,3 +22,5 @@ class User(Base):
     total_followers = Column(Integer, default=0)
 
     hashed_password = Column(String, nullable=False)
+
+    private = Column(Boolean, default=False)

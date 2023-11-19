@@ -1,5 +1,5 @@
 import uuid
-from sqlalchemy import UUID, Column, String
+from sqlalchemy import UUID, Column, String, Boolean
 
 from db.session import Base
 
@@ -12,3 +12,5 @@ class Moment(Base):
 
     message = Column(String, nullable=True)
     photo = Column(String, nullable=True)
+
+    private = Column(Boolean, default=False)
