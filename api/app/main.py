@@ -6,7 +6,7 @@ from fastapi import FastAPI
 
 from dotenv import load_dotenv
 
-from routes import auth
+from routes import auth, moment
 from core.config import settings
 
 load_dotenv()
@@ -21,3 +21,4 @@ app = FastAPI(
 )
 
 app.include_router(auth.router, prefix=api("/auth"), tags=["auth"])
+app.include_router(moment.router, prefix=api("/moment"), tags=["moment"])

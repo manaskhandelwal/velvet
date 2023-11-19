@@ -19,3 +19,7 @@ database = Annotated[Session, Depends(get_db)]
 async def is_duplicate(db: database, model: Any , target: Column[Any], value: str):
     model = db.query(model).filter(target == value).all()
     return len(model) != 0
+
+
+def success_responce(msg: str = None):
+    return {"success": True, "message": msg}

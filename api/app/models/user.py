@@ -1,5 +1,5 @@
 import uuid
-from sqlalchemy import UUID, Boolean, Column, Integer, String, Table, ForeignKey
+from sqlalchemy import UUID, Boolean, Column, Integer, String
 from db.session import Base
 
 
