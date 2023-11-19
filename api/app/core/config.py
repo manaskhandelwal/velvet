@@ -44,5 +44,9 @@ class Settings(BaseSettings):
     CLOUDINARY_API_KEY: str = config.get("CLOUDINARY_API_KEY")
     CLOUDINARY_API_SECRET: str = config.get("CLOUDINARY_API_SECRET")
 
+    AWS_REGION_NAME: str = "us-west-2"
+    AWS_ACCESS_KEY_ID: str = config.get("AWS_ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY: str = config.get("AWS_SECRET_ACCESS_KEY")
+
 
 settings = Settings()
