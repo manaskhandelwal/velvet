@@ -5,7 +5,14 @@
   },
   "files.associations": {
     ".env": "properties",
-    ".env.*": "properties"
+    ".env.*": "properties",
+    "*.css": "tailwindcss"
   },
-  "editor.tabSize": 4
+  "editor.tabSize": 4,
+  "tailwindCSS.classAttributes": ["class", "className", ".*Styles"],
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["clsx\\(.*\\)", "(?:'|\"|`)([^,)]*)(?:'|\"|`)"],
+    ["cntl`([^`]*)"]
+  ]
 }
