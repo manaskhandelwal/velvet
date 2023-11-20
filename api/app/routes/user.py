@@ -2,7 +2,7 @@ from typing import Annotated
 from models.moment import Moment
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from schemas.user import UserProfilePhotoDto
+from schemas.user import UserUpdateProfileDto
 from utils.files import upload_file
 from utils.errors import conflit_error
 from models.follow_relation import FollowRelation
@@ -105,14 +105,18 @@ async def unfollow_user(
     return success_responce()
 
 
-@router.post("/profile-photo")
-async def upload_profile_photo(
-    user_dep: user_dependency, db: db_dependency, dto: UserProfilePhotoDto
+@router.post("/update-profile")
+async def update_profile(
+    user_dep: user_dependency, db: db_dependency, dto: UserUpdateProfileDto
 ):
     user: User = await get_user_by_id(db, user_dep.get("id"))
-    file = await upload_file(dto.file)
 
-    user.profile_photo = file.get("url")
+    photo = await upload_file(dto.profile_photo)
+
+    user.profile_photo = photo.get("url")
+    user.pronouns = dto.pronouns
+    user.bio = dto.bio
+    user.private = dto.private
 
     db.add(user)
     db.commit()

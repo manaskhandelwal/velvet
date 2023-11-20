@@ -17,5 +17,8 @@ class UserLoginDto(BaseModel):
     password: str = Field(min_length=1)
 
 
-class UserProfilePhotoDto(BaseModel):
-    file: str = Field()
+class UserUpdateProfileDto(BaseModel):
+    profile_photo: str = Field()
+    pronouns: str = Field()
+    bio: str = Field()
+    private: bool = Field()
