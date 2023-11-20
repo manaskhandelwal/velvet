@@ -23,7 +23,6 @@ async def get_user_profile(db: db_dependency, username: str):
 
     profile = user.__dict__
 
-    profile.pop("id")
     profile.pop("hashed_password")
     profile.pop("email")
     profile.pop("email_otp")
@@ -37,7 +36,6 @@ async def get_user_profile(user_dep: user_dependency, db: db_dependency):
     user: User = await get_user_by_id(db, user_dep.get("id"))
     profile = user.__dict__
 
-    profile.pop("id")
     profile.pop("hashed_password")
     profile.pop("email")
     profile.pop("email_otp")
