@@ -7,7 +7,7 @@ from utils.files import upload_file
 from utils.errors import conflit_error
 from models.follow_relation import FollowRelation
 from models.user import User
-from utils.user import get_user_by_id
+from utils.user import get_user_by_id, get_user_by_username
 from utils.helpers import get_db, success_responce
 from core.security import get_current_user
 
@@ -15,6 +15,21 @@ from core.security import get_current_user
 router = APIRouter()
 db_dependency = Annotated[Session, Depends(get_db)]
 user_dependency = Annotated[dict, Depends(get_current_user)]
+
+
+@router.get("/p/{username}")
+async def get_user_profile(db: db_dependency, username: str):
+    user: User = await get_user_by_username(db, username)
+
+    profile = user.__dict__
+
+    profile.pop("id")
+    profile.pop("hashed_password")
+    profile.pop("email")
+    profile.pop("email_otp")
+    profile.pop("email_verified")
+
+    return profile
 
 
 @router.get("/me")

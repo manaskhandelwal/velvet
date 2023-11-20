@@ -124,3 +124,15 @@ async def get_user_moments(user_dep: user_dependency, db: db_dependency):
     )
 
     return moments
+
+
+@router.get("/p/{user_id}")
+async def get_user_moments(db: db_dependency, user_id: str):
+    moments = (
+        db.query(Moment)
+        .filter(Moment.user_id == user_id)
+        .filter(Moment.private == False)
+        .all()
+    )
+
+    return moments
