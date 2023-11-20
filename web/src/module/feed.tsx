@@ -1,5 +1,6 @@
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { Header } from "./header";
 
 interface FeedProps {}
 
@@ -13,6 +14,7 @@ export const Feed: React.FC<FeedProps> = ({}) => {
 
   return (
     <div>
+      <Header />
       <h1 className="text-6xl">Feed</h1>
     </div>
   );

@@ -162,19 +162,15 @@ export const RegisterCard: React.FC<RegisterCardProps> = ({}) => {
 
     const onSubmit: SubmitHandler<IOtpFormInput> = async (data) => {
       try {
-        console.log({ otpData: data });
-
         const responce = await API.post("/auth/verify-otp", {
           email_otp: Number(data.otp),
         });
-
-        console.log({ x: responce.data });
 
         if (responce.data.success) {
           setUserVerified(true);
 
           setTimeout(() => {
-            router.push("/feed");
+            router.push("/profile/update");
           }, 1000);
         }
       } catch (error: any) {

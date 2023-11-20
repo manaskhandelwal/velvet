@@ -1,30 +1,30 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { API } from "../../utils/api";
-import { useRouter } from "next/navigation";
-import { Header } from "../../module/header";
-import { Moment, Profile, User } from "../../module/profile";
+import { useState, useEffect } from "react";
+import { Header } from "../../../module/header";
+import { User, Moment, Profile } from "../../../module/profile";
+import { API } from "../../../utils/api";
 
-export default function ProfilePage() {
+export default function ProfilePage({
+  params,
+}: {
+  params: { username: string };
+}) {
   const [user, setUser] = useState<null | User>(null);
   const [moments, setMoments] = useState<null | Moment[]>(null);
-  const router = useRouter();
 
   const getUser = async () => {
-    const userRes = await API.get("/user/me");
+    const userRes = await API.get(`/user/p/${params.username}`);
     setUser(userRes.data);
 
-    const momentsRes = await API.get("/user/moments");
+    const momentsRes = await API.get(`/moment/p/${userRes.data.id}`);
     setMoments(momentsRes.data);
   };
 
   useEffect(() => {
-    const accessToken = localStorage.getItem("access_token");
-    if (!accessToken) router.push("/");
-
+    console.log(params.username);
     (async () => await getUser())();
-  }, [router]);
+  }, []);
 
   if (!user || !moments) {
     return (
